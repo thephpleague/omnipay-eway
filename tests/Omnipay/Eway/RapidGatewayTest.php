@@ -2,7 +2,7 @@
 
 namespace Omnipay\Eway;
 
-use Omnipay\GatewayTestCase;
+use Omnipay\Tests\GatewayTestCase;
 
 class RapidGatewayTest extends GatewayTestCase
 {

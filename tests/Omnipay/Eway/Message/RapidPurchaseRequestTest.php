@@ -2,7 +2,7 @@
 
 namespace Omnipay\Eway\Message;
 
-use Omnipay\TestCase;
+use Omnipay\Tests\TestCase;
 
 class RapidPurchaseRequestTest extends TestCase
 {
