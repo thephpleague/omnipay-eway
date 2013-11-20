@@ -10,9 +10,9 @@ use Omnipay\Common\Message\AbstractRequest;
 abstract class DirectAbstractRequest extends AbstractRequest
 {
 
-    public function send()
+    public function sendData($data)
     {
-        $httpResponse = $this->httpClient->post($this->getEndpoint(), null, $this->getData())->send();
+        $httpResponse = $this->httpClient->post($this->getEndpoint(), null, $data)->send();
 
         return $this->response = new DirectResponse($this, $httpResponse->getBody());
     }
