@@ -22,16 +22,6 @@ class DirectGateway extends AbstractGateway
         );
     }
 
-    public function getApiKey()
-    {
-        return $this->getParameter('apiKey');
-    }
-
-    public function setApiKey($value)
-    {
-        return $this->setParameter('apiKey', $value);
-    }
-
     public function getCustomerId()
     {
         return $this->getParameter('customerId');
