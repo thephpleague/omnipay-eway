@@ -184,13 +184,18 @@ class RapidResponse extends AbstractResponse implements RedirectResponseInterfac
 
     public function getMessage()
     {
-        $code = $this->getCode();
+        $codes = explode(',', $this->getCode());
+        $messages = array();
 
-        if (isset(static::$MESSAGES[$code])) {
-            return static::$MESSAGES[$code];
-        } else {
-            return $code;
+        foreach ($codes as $code) {
+            if (isset(static::$MESSAGES[$code])) {
+                $messages[] = static::$MESSAGES[$code];
+            } else {
+                $messages[] = $code;
+            }
         }
+
+        return implode(', ', $messages) ?: null;
     }
 
     public function getCode()
