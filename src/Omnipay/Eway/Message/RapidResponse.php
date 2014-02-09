@@ -10,7 +10,7 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class RapidResponse extends AbstractResponse implements RedirectResponseInterface
 {
-    static $MESSAGES = array(
+    public static $MESSAGES = array(
         'A2000' => 'Transaction Approved',
         'A2008' => 'Honour With Identification',
         'A2010' => 'Approved For Partial Amount',
