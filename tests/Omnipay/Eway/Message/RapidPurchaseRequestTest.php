@@ -71,7 +71,7 @@ class RapidPurchaseRequestTest extends TestCase
         $this->assertNull($response->getRedirectUrl());
         $this->assertNull($response->getRedirectData());
         $this->assertNull($response->getTransactionReference());
-        $this->assertSame('V6011', $response->getMessage());
+        $this->assertSame('Invalid Payment TotalAmount', $response->getMessage());
         $this->assertSame('V6011', $response->getCode());
     }
 }

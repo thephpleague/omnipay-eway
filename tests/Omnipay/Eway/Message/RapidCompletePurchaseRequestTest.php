@@ -35,7 +35,7 @@ class RapidCompletePurchaseRequestTest extends TestCase
         $this->assertNull($response->getRedirectUrl());
         $this->assertNull($response->getRedirectData());
         $this->assertSame('10204029', $response->getTransactionReference());
-        $this->assertSame('A2000', $response->getMessage());
+        $this->assertSame('Transaction Approved', $response->getMessage());
         $this->assertSame('A2000', $response->getCode());
     }
 
@@ -49,7 +49,7 @@ class RapidCompletePurchaseRequestTest extends TestCase
         $this->assertNull($response->getRedirectUrl());
         $this->assertNull($response->getRedirectData());
         $this->assertNull($response->getTransactionReference());
-        $this->assertSame('V6021', $response->getMessage());
+        $this->assertSame('EWAY_CARDNAME Required', $response->getMessage());
         $this->assertSame('V6021', $response->getCode());
     }
 }
