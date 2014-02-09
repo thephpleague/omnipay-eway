@@ -49,9 +49,19 @@ class RapidPurchaseRequest extends AbstractRequest
         $data['Payment']['CurrencyCode'] = $this->getCurrency();
 
         $data['Customer'] = array();
-        if ($this->getCard()) {
-            $data['Customer']['FirstName'] = $this->getCard()->getFirstName();
-            $data['Customer']['LastName'] = $this->getCard()->getLastName();
+        $card = $this->getCard();
+        if ($card) {
+            $data['Customer']['FirstName'] = $card->getFirstName();
+            $data['Customer']['LastName'] = $card->getLastName();
+            $data['Customer']['CompanyName'] = $card->getCompany();
+            $data['Customer']['Street1'] = $card->getAddress1();
+            $data['Customer']['Street2'] = $card->getAddress2();
+            $data['Customer']['City'] = $card->getCity();
+            $data['Customer']['State'] = $card->getState();
+            $data['Customer']['PostalCode'] = $card->getPostCode();
+            $data['Customer']['Country'] = strtolower($card->getCountry());
+            $data['Customer']['Email'] = $card->getEmail();
+            $data['Customer']['Phone'] = $card->getPhone();
         }
 
         return $data;
