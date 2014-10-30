@@ -9,6 +9,8 @@ use Omnipay\Common\AbstractGateway;
  */
 class RapidGateway extends AbstractGateway
 {
+    public $transparentRedirect = true;
+
     public function getName()
     {
         return 'eWAY Rapid 3.0';
