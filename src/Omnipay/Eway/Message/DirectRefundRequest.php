@@ -48,6 +48,6 @@ class DirectRefundRequest extends DirectAbstractRequest
         $sxml->addChild('ewayRefundPassword', $this->getRefundPassword());
         $sxml->addChild('ewayCustomerInvoiceRef', $this->getTransactionReference());
 
-        return $sxml->asXML();
+        return $sxml;
     }
 }

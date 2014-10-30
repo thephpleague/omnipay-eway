@@ -11,20 +11,9 @@ use Omnipay\Common\Exception\InvalidResponseException;
  */
 class DirectResponse extends AbstractResponse
 {
-    public function __construct(RequestInterface $request, $data)
-    {
-        $this->request = $request;
-
-        try {
-            $this->data = new \SimpleXMLElement($data);
-        } catch (\Exception $e) {
-            throw new InvalidResponseException();
-        }
-    }
-
     public function isSuccessful()
     {
-        return ($this->data->ewayTrxnStatus == "True");
+        return "True" === (string) $this->data->ewayTrxnStatus;
     }
 
     public function isRedirect()

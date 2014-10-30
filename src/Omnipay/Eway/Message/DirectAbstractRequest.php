@@ -12,9 +12,9 @@ abstract class DirectAbstractRequest extends AbstractRequest
 
     public function sendData($data)
     {
-        $httpResponse = $this->httpClient->post($this->getEndpoint(), null, $data)->send();
+        $httpResponse = $this->httpClient->post($this->getEndpoint(), null, $data->asXML())->send();
 
-        return $this->response = new DirectResponse($this, $httpResponse->getBody());
+        return $this->response = new DirectResponse($this, $httpResponse->xml());
     }
 
     public function getCustomerId()

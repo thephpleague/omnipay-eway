@@ -30,6 +30,6 @@ class DirectVoidRequest extends DirectAbstractRequest
         $sxml->addChild('ewayOption2', $this->getOption2());
         $sxml->addChild('ewayOption3', $this->getOption3());
 
-        return $sxml->asXML();
+        return $sxml;
     }
 }

@@ -48,6 +48,6 @@ class DirectAuthorizeRequest extends DirectAbstractRequest
         $sxml->addChild('ewayCustomerInvoiceDescription', $this->getDescription());
         $sxml->addChild('ewayCustomerInvoiceRef', $this->getTransactionReference());
 
-        return $sxml->asXML();
+        return $sxml;
     }
 }
