@@ -74,6 +74,43 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         return $this->setParameter('invoiceReference', $value);
     }
+    
+    protected function getBaseData()
+    {
+        $data = array();
+        $data['DeviceID'] = 'https://github.com/adrianmacneil/omnipay';
+        $data['CustomerIP'] = $this->getClientIp();
+        $data['PartnerID'] = $this->getPartnerId();
+        $data['ShippingMethod'] = $this->getShippingMethod();
+
+        $data['Customer'] = array();
+        $card = $this->getCard();
+        if ($card) {
+            $data['Customer']['FirstName'] = $card->getFirstName();
+            $data['Customer']['LastName'] = $card->getLastName();
+            $data['Customer']['CompanyName'] = $card->getCompany();
+            $data['Customer']['Street1'] = $card->getAddress1();
+            $data['Customer']['Street2'] = $card->getAddress2();
+            $data['Customer']['City'] = $card->getCity();
+            $data['Customer']['State'] = $card->getState();
+            $data['Customer']['PostalCode'] = $card->getPostCode();
+            $data['Customer']['Country'] = strtolower($card->getCountry());
+            $data['Customer']['Email'] = $card->getEmail();
+            $data['Customer']['Phone'] = $card->getPhone();
+
+            $data['ShippingAddress']['FirstName'] = $card->getShippingFirstName();
+            $data['ShippingAddress']['LastName'] = $card->getShippingLastName();
+            $data['ShippingAddress']['Street1'] = $card->getShippingAddress1();
+            $data['ShippingAddress']['Street2'] = $card->getShippingAddress2();
+            $data['ShippingAddress']['City'] = $card->getShippingCity();
+            $data['ShippingAddress']['State'] = $card->getShippingState();
+            $data['ShippingAddress']['Country'] = strtolower($card->getShippingCountry());
+            $data['ShippingAddress']['PostalCode'] = $card->getShippingPostcode();
+            $data['ShippingAddress']['Phone'] = $card->getShippingPhone();
+        }
+
+        return $data;
+    }
 
     protected function getItemData()
     {
