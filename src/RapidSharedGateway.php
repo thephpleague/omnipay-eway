@@ -7,13 +7,11 @@ use Omnipay\Common\AbstractGateway;
 /**
  * eWAY Rapid 3.0 Gateway
  */
-class RapidGateway extends AbstractGateway
+class RapidSharedGateway extends AbstractGateway
 {
-    public $transparentRedirect = true;
-
     public function getName()
     {
-        return 'eWAY Rapid 3.0';
+        return 'eWAY Rapid Shared Page';
     }
 
     public function getDefaultParameters()
@@ -47,7 +45,7 @@ class RapidGateway extends AbstractGateway
 
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\Eway\Message\RapidPurchaseRequest', $parameters);
+        return $this->createRequest('\Omnipay\Eway\Message\RapidSharedPurchaseRequest', $parameters);
     }
 
     public function completePurchase(array $parameters = array())

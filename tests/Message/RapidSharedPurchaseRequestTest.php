@@ -4,11 +4,11 @@ namespace Omnipay\Eway\Message;
 
 use Omnipay\Tests\TestCase;
 
-class RapidPurchaseRequestTest extends TestCase
+class RapidSharedPurchaseRequestTest extends TestCase
 {
     public function setUp()
     {
-        $this->request = new RapidPurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request = new RapidSharedPurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(array(
             'apiKey' => 'my api key',
             'password' => 'secret',
@@ -101,14 +101,14 @@ class RapidPurchaseRequestTest extends TestCase
 
     public function testSendSuccess()
     {
-        $this->setMockHttpResponse('RapidPurchaseRequestSuccess.txt');
+        $this->setMockHttpResponse('RapidSharedPurchaseRequestSuccess.txt');
         $response = $this->request->send();
 
         $this->assertFalse($response->isSuccessful());
         $this->assertTrue($response->isRedirect());
-        $this->assertSame('POST', $response->getRedirectMethod());
-        $this->assertSame('https://secure-au.sandbox.ewaypayments.com/Process', $response->getRedirectUrl());
-        $this->assertSame(array('EWAY_ACCESSCODE' => 'F9802j0-O7sdVLnOcb_3IPryTxHDtKY8u_0pb10GbYq-Xjvbc-5Bc_LhI-oBIrTxTCjhOFn7Mq-CwpkLDja5-iu-Dr3DjVTr9u4yxSB5BckdbJqSA4WWydzDO0jnPWfBdKcWL'), $response->getRedirectData());
+        $this->assertSame('GET', $response->getRedirectMethod());
+        $this->assertSame('https://secure.ewaypayments.com/sharedpayment?AccessCode=F9802j0-O7sdVLnOcb_3IPryTxHDtKY8u_0pb10GbYq-Xjvbc-5Bc_LhI-oBIrTxTCjhOFn7Mq-CwpkLDja5-iu-Dr3DjVTr9u4yxSB5BckdbJqSA4WWydzDO0jnPWfBdKcWL', $response->getRedirectUrl());
+        $this->assertNull($response->getRedirectData());
         $this->assertNull($response->getTransactionReference());
         $this->assertNull($response->getMessage());
         $this->assertNull($response->getCode());
@@ -116,7 +116,7 @@ class RapidPurchaseRequestTest extends TestCase
 
     public function testSendFailure()
     {
-        $this->setMockHttpResponse('RapidPurchaseRequestFailure.txt');
+        $this->setMockHttpResponse('RapidSharedPurchaseRequestFailure.txt');
         $response = $this->request->send();
 
         $this->assertFalse($response->isSuccessful());
@@ -127,4 +127,53 @@ class RapidPurchaseRequestTest extends TestCase
         $this->assertSame('Invalid TotalAmount', $response->getMessage());
         $this->assertSame('V6011', $response->getCode());
     }
+
+    public function testCancelUrl()
+    {
+        $this->assertSame($this->request, $this->request->setCancelUrl('http://www.example.com'));
+        $this->assertSame('http://www.example.com', $this->request->getCancelUrl());
+    }
+
+    public function testLogoUrl()
+    {
+        $this->assertSame($this->request, $this->request->setLogoUrl('https://www.example.com/logo.jpg'));
+        $this->assertSame('https://www.example.com/logo.jpg', $this->request->getLogoUrl());
+    }
+
+    public function testHeaderText()
+    {
+        $this->assertSame($this->request, $this->request->setHeaderText('Header Text'));
+        $this->assertSame('Header Text', $this->request->getHeaderText());
+    }
+
+    public function testLanguage()
+    {
+        $this->assertSame($this->request, $this->request->setLanguage('EN'));
+        $this->assertSame('EN', $this->request->getLanguage());
+    }
+
+    public function testCustomerReadOnly()
+    {
+        $this->assertSame($this->request, $this->request->setCustomerReadOnly('true'));
+        $this->assertSame('true', $this->request->getCustomerReadOnly());
+    }
+
+    public function testCustomView()
+    {
+        $this->assertSame($this->request, $this->request->setCustomView('Bootstrap'));
+        $this->assertSame('Bootstrap', $this->request->getCustomView());
+    }
+
+    public function testVerifyCustomerPhone()
+    {
+        $this->assertSame($this->request, $this->request->setVerifyCustomerPhone('true'));
+        $this->assertSame('true', $this->request->getVerifyCustomerPhone());
+    }
+
+    public function testVerifyCustomerEmail()
+    {
+        $this->assertSame($this->request, $this->request->setVerifyCustomerEmail('true'));
+        $this->assertSame('true', $this->request->getVerifyCustomerEmail());
+    }
+
 }

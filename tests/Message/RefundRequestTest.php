@@ -4,16 +4,16 @@ namespace Omnipay\Eway\Message;
 
 use Omnipay\Tests\TestCase;
 
-class RapidPurchaseRequestTest extends TestCase
+class RapidRefundRequestTest extends TestCase
 {
     public function setUp()
     {
-        $this->request = new RapidPurchaseRequest($this->getHttpClient(), $this->getHttpRequest());
+        $this->request = new RefundRequest($this->getHttpClient(), $this->getHttpRequest());
         $this->request->initialize(array(
             'apiKey' => 'my api key',
             'password' => 'secret',
             'amount' => '10.00',
-            'returnUrl' => 'https://www.example.com/return',
+            'transactionReference' => '87654321',
         ));
     }
 
@@ -23,15 +23,13 @@ class RapidPurchaseRequestTest extends TestCase
             'apiKey' => 'my api key',
             'password' => 'secret',
             'partnerId' => '1234',
-            'transactionType' => 'Purchase',
-            'shippingMethod' => 'NextDay',
             'amount' => '10.00',
+            'transactionReference' => '87654321',
             'transactionId' => '999',
             'description' => 'new car',
             'currency' => 'AUD',
             'invoiceReference' => 'INV-123',
             'clientIp' => '127.0.0.1',
-            'returnUrl' => 'https://www.example.com/return',
             'card' => array(
                 'firstName' => 'Patrick',
                 'lastName' => 'Collison',
@@ -48,14 +46,12 @@ class RapidPurchaseRequestTest extends TestCase
 
         $this->assertSame('127.0.0.1', $data['CustomerIP']);
         $this->assertSame('1234', $data['PartnerID']);
-        $this->assertSame('Purchase', $data['TransactionType']);
-        $this->assertSame('NextDay', $data['ShippingMethod']);
-        $this->assertSame('https://www.example.com/return', $data['RedirectUrl']);
-        $this->assertSame(1000, $data['Payment']['TotalAmount']);
-        $this->assertSame('999', $data['Payment']['InvoiceNumber']);
-        $this->assertSame('new car', $data['Payment']['InvoiceDescription']);
-        $this->assertSame('INV-123', $data['Payment']['InvoiceReference']);
-        $this->assertSame('AUD', $data['Payment']['CurrencyCode']);
+        $this->assertSame(1000, $data['Refund']['TotalAmount']);
+        $this->assertSame('87654321', $data['Refund']['TransactionID']);
+        $this->assertSame('999', $data['Refund']['InvoiceNumber']);
+        $this->assertSame('new car', $data['Refund']['InvoiceDescription']);
+        $this->assertSame('INV-123', $data['Refund']['InvoiceReference']);
+        $this->assertSame('AUD', $data['Refund']['CurrencyCode']);
         $this->assertSame('Patrick', $data['Customer']['FirstName']);
         $this->assertSame('Collison', $data['Customer']['LastName']);
         $this->assertSame('John', $data['ShippingAddress']['FirstName']);
@@ -70,11 +66,11 @@ class RapidPurchaseRequestTest extends TestCase
             'apiKey' => 'my api key',
             'password' => 'secret',
             'amount' => '10.00',
+            'transactionReference' => '87654321',
             'transactionId' => '999',
             'description' => 'new car',
             'currency' => 'AUD',
             'clientIp' => '127.0.0.1',
-            'returnUrl' => 'https://www.example.com/return',
             'card' => array(
                 'firstName' => 'Patrick',
                 'lastName' => 'Collison',
@@ -101,30 +97,22 @@ class RapidPurchaseRequestTest extends TestCase
 
     public function testSendSuccess()
     {
-        $this->setMockHttpResponse('RapidPurchaseRequestSuccess.txt');
+        $this->setMockHttpResponse('RapidRefundRequestSuccess.txt');
         $response = $this->request->send();
 
-        $this->assertFalse($response->isSuccessful());
-        $this->assertTrue($response->isRedirect());
-        $this->assertSame('POST', $response->getRedirectMethod());
-        $this->assertSame('https://secure-au.sandbox.ewaypayments.com/Process', $response->getRedirectUrl());
-        $this->assertSame(array('EWAY_ACCESSCODE' => 'F9802j0-O7sdVLnOcb_3IPryTxHDtKY8u_0pb10GbYq-Xjvbc-5Bc_LhI-oBIrTxTCjhOFn7Mq-CwpkLDja5-iu-Dr3DjVTr9u4yxSB5BckdbJqSA4WWydzDO0jnPWfBdKcWL'), $response->getRedirectData());
-        $this->assertNull($response->getTransactionReference());
-        $this->assertNull($response->getMessage());
-        $this->assertNull($response->getCode());
+        $this->assertTrue($response->isSuccessful());
+        $this->assertSame('11092404', $response->getTransactionReference());
+        $this->assertSame('A2000', $response->getCode());
     }
 
     public function testSendFailure()
     {
-        $this->setMockHttpResponse('RapidPurchaseRequestFailure.txt');
+        $this->setMockHttpResponse('RapidRefundRequestFailure.txt');
         $response = $this->request->send();
 
         $this->assertFalse($response->isSuccessful());
-        $this->assertFalse($response->isRedirect());
-        $this->assertNull($response->getRedirectUrl());
-        $this->assertNull($response->getRedirectData());
         $this->assertNull($response->getTransactionReference());
-        $this->assertSame('Invalid TotalAmount', $response->getMessage());
-        $this->assertSame('V6011', $response->getCode());
+        $this->assertSame('Unauthorised API Access, Account Not PCI Certified, Invalid Refund Transaction ID', $response->getMessage());
+        $this->assertSame('V6111,V6115', $response->getCode());
     }
 }
