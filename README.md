@@ -33,6 +33,7 @@ The following gateways are provided by this package:
 
 * Eway_Rapid
 * Eway_RapidShared
+* Eway_Direct
 
 For general usage instructions, please see the main [Omnipay](https://github.com/thephpleague/omnipay)
 repository.
