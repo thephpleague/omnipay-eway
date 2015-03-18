@@ -1,4 +1,7 @@
 <?php
+/**
+ * eWAY Rapid Purchase Request
+ */
 
 namespace Omnipay\Eway\Message;
 
@@ -6,11 +9,11 @@ namespace Omnipay\Eway\Message;
  * eWAY Rapid Purchase Request
  *
  * Creates a payment URL using eWAY's Transparent Redirect
- * http://api-portal.anypoint.mulesoft.com/eway/api/eway-rapid-31-api/docs/reference/transparent-redirect
+ *
+ * @link https://eway.io/api-v3/#transparent-redirect
  */
 class RapidPurchaseRequest extends AbstractRequest
 {
-
     public function getData()
     {
         $this->validate('amount', 'returnUrl');
@@ -43,7 +46,7 @@ class RapidPurchaseRequest extends AbstractRequest
         return $this->response = new RapidResponse($this, $httpResponse->json());
     }
 
-    public function getEndpoint()
+    protected function getEndpoint()
     {
         return $this->getEndpointBase().'/CreateAccessCode.json';
     }

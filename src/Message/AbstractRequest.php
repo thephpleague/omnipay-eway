@@ -1,11 +1,17 @@
 <?php
-
+/**
+ * eWAY Rapid Abstract Request
+ */
+ 
 namespace Omnipay\Eway\Message;
 
 /**
-* eWAY Abstract Request
-*
-*/
+ * eWAY Rapid Abstract Request
+ *
+ * This class forms the base class for eWAY Rapid requests
+ *
+ * @link https://eway.io/api-v3/#api-reference
+ */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
     protected $liveEndpoint = 'https://api.ewaypayments.com';
@@ -43,7 +49,10 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
     public function getTransactionType()
     {
-        return $this->getParameter('transactionType');
+        if ($this->getParameter('transactionType')) {
+            return $this->getParameter('transactionType');
+        }
+        return 'Purchase';
     }
 
     /**
@@ -86,6 +95,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $data['Customer'] = array();
         $card = $this->getCard();
         if ($card) {
+            $data['Customer']['Title'] = $card->getTitle();
             $data['Customer']['FirstName'] = $card->getFirstName();
             $data['Customer']['LastName'] = $card->getLastName();
             $data['Customer']['CompanyName'] = $card->getCompany();

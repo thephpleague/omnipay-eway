@@ -1,11 +1,20 @@
 <?php
-
+/**
+ * eWAY Legacy Direct XML Payments Gateway
+ */
+ 
 namespace Omnipay\Eway;
 
 use Omnipay\Common\AbstractGateway;
 
 /**
- * eWAY Direct Payments Gateway
+ * eWAY Legacy Direct XML Payments Gateway
+ *
+ * This class forms the gateway class for eWAY Legacy Direct XML requests.
+ *
+ * NOTE: The APIs called by this gateway are older legacy APIs, new integrations should instead
+ * use eWAY Rapid.
+ *
  */
 class DirectGateway extends AbstractGateway
 {

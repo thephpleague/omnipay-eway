@@ -1,4 +1,7 @@
 <?php
+/**
+ * eWAY Rapid Shared Page Purchase Request
+ */
 
 namespace Omnipay\Eway\Message;
 
@@ -6,11 +9,11 @@ namespace Omnipay\Eway\Message;
  * eWAY Rapid Shared Page Purchase Request
  *
  * Creates a payment URL using eWAY's Responsive Shared Page
- * http://api-portal.anypoint.mulesoft.com/eway/api/eway-rapid-31-api/docs/reference/responsive-shared-page
+ *
+ * @link https://eway.io/api-v3/#responsive-shared-page
  */
 class RapidSharedPurchaseRequest extends AbstractRequest
 {
-
     public function getData()
     {
         $this->validate('amount', 'returnUrl');
@@ -53,7 +56,7 @@ class RapidSharedPurchaseRequest extends AbstractRequest
         return $this->response = new RapidSharedResponse($this, $httpResponse->json());
     }
 
-    public function getEndpoint()
+    protected function getEndpoint()
     {
         return $this->getEndpointBase().'/CreateAccessCodeShared.json';
     }
