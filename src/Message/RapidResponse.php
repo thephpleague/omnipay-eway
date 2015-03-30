@@ -1,11 +1,17 @@
 <?php
-
+/**
+ * eWAY Rapid Response
+ */
+ 
 namespace Omnipay\Eway\Message;
 
 use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
- * eWAY Rapid 3.0 Purchase Response
+ * eWAY Rapid Response
+ * 
+ * This is the response class for Rapid Direct & Transparent Redirect (Rapid)
+ *
  */
 class RapidResponse extends AbstractResponse implements RedirectResponseInterface
 {
@@ -31,5 +37,19 @@ class RapidResponse extends AbstractResponse implements RedirectResponseInterfac
                 'EWAY_ACCESSCODE' => $this->data['AccessCode'],
             );
         }
+    }
+
+    /**
+     * Get a card reference (eWAY Token), for createCard requests.
+     *
+     * @return string|null
+     */
+    public function getCardReference()
+    {
+        if (isset($this->data['Customer']['TokenCustomerID'])) {
+            return $this->data['Customer']['TokenCustomerID'];
+        }
+        
+        return null;
     }
 }

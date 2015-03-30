@@ -1,13 +1,23 @@
 <?php
-
+/**
+ * eWAY Rapid Abstract Response
+ */
+ 
 namespace Omnipay\Eway\Message;
 
 /**
-* eWAY Abstract Response
-*
-*/
+ * eWAY Rapid Abstract Response
+ *
+ * This is the base response class for all eWAY requests.
+ *
+ */
 abstract class AbstractResponse extends \Omnipay\Common\Message\AbstractResponse
 {
+    /**
+     * Translation of eWAY response codes to English
+     *
+     * @link https://eway.io/api-v3/#response-amp-error-codes
+     */
     public static $MESSAGES = array(
         'A2000' => 'Transaction Approved',
         'A2008' => 'Honour With Identification',
