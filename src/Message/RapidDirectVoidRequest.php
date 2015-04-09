@@ -10,7 +10,7 @@ class RapidDirectVoidRequest extends AbstractRequest
 {
     public function getData()
     {
-        $this->validate('amount', 'transactionReference');
+        $this->validate('transactionReference');
 
         $data = array();
 
