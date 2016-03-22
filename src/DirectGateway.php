@@ -14,9 +14,6 @@ use Omnipay\Common\AbstractGateway;
  *
  * NOTE: The APIs called by this gateway are older legacy APIs, new integrations should instead
  * use eWAY Rapid.
- *
- * Recent testing on this indicates that it no longer works -- perhaps we need to roll
- * back to an older code version to fix that?
  */
 class DirectGateway extends AbstractGateway
 {

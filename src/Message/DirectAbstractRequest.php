@@ -2,7 +2,7 @@
 
 namespace Omnipay\Eway\Message;
 
-// use Omnipay\Common\Message\AbstractRequest;
+use Omnipay\Common\Message\AbstractRequest;
 
 /**
  * eWAY Direct Abstract Request
