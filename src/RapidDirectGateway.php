@@ -96,7 +96,7 @@ class RapidDirectGateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return array(
-            'apiKey' => '',
+            'apiKey'   => '',
             'password' => '',
             'testMode' => false,
         );

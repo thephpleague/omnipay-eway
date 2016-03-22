@@ -26,7 +26,7 @@ class DirectGateway extends AbstractGateway
     {
         return array(
             'customerId' => '',
-            'testMode' => false,
+            'testMode'   => false,
         );
     }
 
