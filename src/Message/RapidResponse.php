@@ -33,8 +33,14 @@ class RapidResponse extends AbstractResponse implements RedirectResponseInterfac
     public function getRedirectData()
     {
         if ($this->isRedirect()) {
+            $card = $this->request->getCard();
             return array(
                 'EWAY_ACCESSCODE' => $this->data['AccessCode'],
+                'EWAY_CARDNAME' => $card->getFirstName() . ' ' . $card->getLastName(),
+                'EWAY_CARDNUMBER' => $card->getNumber(),
+                'EWAY_CARDEXPIRYMONTH' => $card->getExpiryMonth(),
+                'EWAY_CARDEXPIRYYEAR' => $card->getExpiryYear(),
+                'EWAY_CARDCVN' => $card->getCvv(),
             );
         }
     }
