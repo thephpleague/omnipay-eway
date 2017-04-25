@@ -16,10 +16,10 @@ class RapidSharedUpdateCardRequest extends AbstractRequest
 {
     public function getData()
     {
-        $this->validate('returnUrl');
+        $this->validate('returnUrl', 'cardReference');
 
         $data = $this->getBaseData();
-        $data['Method'] = 'CreateTokenCustomer';
+        $data['Method'] = 'UpdateTokenCustomer';
         $data['TransactionType'] = 'Purchase';
         $data['RedirectUrl'] = $this->getReturnUrl();
 
@@ -34,8 +34,7 @@ class RapidSharedUpdateCardRequest extends AbstractRequest
         $data['Payment'] = array();
         $data['Payment']['TotalAmount'] = 0;
 
-        $data['Customer'] = array();
-        $data['Customer']['TokenCustomerID'] = $this->getTokenCustomerId();
+        $data['Customer']['TokenCustomerID'] = $this->getCardReference();
 
         return $data;
     }
@@ -132,15 +131,5 @@ class RapidSharedUpdateCardRequest extends AbstractRequest
     public function setVerifyCustomerEmail($value)
     {
         return $this->setParameter('verifyCustomerEmail', $value);
-    }
-
-    public function getTokenCustomerId()
-    {
-        return $this->getParameter('tokenCustomerId');
-    }
-
-    public function setTokenCustomerId($value)
-    {
-        return $this->setParameter('tokenCustomerId', $value);
     }
 }
