@@ -40,6 +40,16 @@ class RapidResponse extends AbstractResponse implements RedirectResponseInterfac
     }
 
     /**
+     * Is the response a transparent redirect?
+     *
+     * @return boolean
+     */
+    public function isTransparentRedirect()
+    {
+        return true;
+    }
+
+    /**
      * Get a card reference (eWAY Token), for createCard requests.
      *
      * @return string|null
