@@ -76,4 +76,9 @@ class RapidGateway extends AbstractGateway
     {
         return $this->createRequest('\Omnipay\Eway\Message\RefundRequest', $parameters);
     }
+
+    public function createCard(array $parameters = array())
+    {
+        return $this->createRequest('\Omnipay\Eway\Message\RapidCreateCardRequest', $parameters);
+    }
 }
