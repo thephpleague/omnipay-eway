@@ -12,26 +12,8 @@ namespace Omnipay\Eway\Message;
  *
  * @link https://eway.io/api-v3/#responsive-shared-page
  */
-class RapidSharedCreateCardRequest extends RapidSharedPurchaseRequest
+class RapidCreateCardRequest extends RapidPurchaseRequest
 {
-    protected $action;
-
-    /**
-     * @return string|NULL
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
-
-    /**
-     * @param string $action
-     */
-    public function setAction($action)
-    {
-        $this->action = $action;
-    }
-
     public function getData()
     {
         $this->validate('returnUrl');
@@ -43,11 +25,6 @@ class RapidSharedCreateCardRequest extends RapidSharedPurchaseRequest
 
         // Shared page parameters (optional)
         $data['CancelUrl'] = $this->getCancelUrl();
-        $data['LogoUrl'] = $this->getLogoUrl();
-        $data['HeaderText'] = $this->getHeaderText();
-        $data['Language'] = $this->getLanguage();
-        $data['CustomerReadOnly'] = $this->getCustomerReadOnly();
-        $data['CustomView'] = $this->getCustomView();
 
         $data['Payment'] = array();
 
