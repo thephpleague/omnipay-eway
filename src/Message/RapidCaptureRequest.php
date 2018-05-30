@@ -33,9 +33,9 @@ class RapidCaptureRequest extends AbstractRequest
     {
         $this->validate('amount', 'transactionReference');
 
-        $data = array();
+        $data = [];
 
-        $data['Payment'] = array();
+        $data['Payment'] = [];
         $data['Payment']['TotalAmount'] = $this->getAmountInteger();
         $data['Payment']['InvoiceNumber'] = $this->getTransactionId();
         $data['Payment']['InvoiceDescription'] = $this->getDescription();
@@ -49,20 +49,15 @@ class RapidCaptureRequest extends AbstractRequest
 
     public function getEndpoint()
     {
-        return $this->getEndpointBase().'/CapturePayment';
+        return $this->getEndpointBase() . '/CapturePayment';
     }
 
     public function sendData($data)
     {
-        // This request uses the REST endpoint and requires the JSON content type header
-        $httpResponse = $this->httpClient->post(
-            $this->getEndpoint(),
-            array('content-type' => 'application/json'),
-            json_encode($data)
-        )
-        ->setAuth($this->getApiKey(), $this->getPassword())
-        ->send();
+        $httpResponse = $this->httpClient->request('POST', $this->getEndpoint(), [
+            'content-type' => 'application/json',
+        ], json_encode($data));
 
-        return $this->response = new RapidResponse($this, $httpResponse->json());
+        return $this->response = new RapidResponse($this, json_decode((string) $httpResponse->getBody(), true));
     }
 }
