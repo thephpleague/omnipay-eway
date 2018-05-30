@@ -23,7 +23,7 @@ class RapidPurchaseRequest extends AbstractRequest
         $data['TransactionType'] = $this->getTransactionType();
         $data['RedirectUrl'] = $this->getReturnUrl();
 
-        $data['Payment'] = array();
+        $data['Payment'] = [];
         $data['Payment']['TotalAmount'] = $this->getAmountInteger();
         $data['Payment']['InvoiceNumber'] = $this->getTransactionId();
         $data['Payment']['InvoiceDescription'] = $this->getDescription();
@@ -39,15 +39,13 @@ class RapidPurchaseRequest extends AbstractRequest
 
     public function sendData($data)
     {
-        $httpResponse = $this->httpClient->post($this->getEndpoint(), null, json_encode($data))
-            ->setAuth($this->getApiKey(), $this->getPassword())
-            ->send();
+        $httpResponse = $this->httpClient->request('POST', $this->getEndpoint(), [], json_encode($data));
 
-        return $this->response = new RapidResponse($this, $httpResponse->json());
+        return $this->response = new RapidResponse($this, json_decode((string) $httpResponse->getBody(), true));
     }
 
     protected function getEndpoint()
     {
-        return $this->getEndpointBase().'/CreateAccessCode.json';
+        return $this->getEndpointBase() . '/CreateAccessCode.json';
     }
 }
