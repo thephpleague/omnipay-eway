@@ -24,9 +24,12 @@ class RapidDirectVoidRequest extends AbstractRequest
 
     public function sendData($data)
     {
-        $httpResponse = $this->httpClient->request('POST', $this->getEndpoint(), [
+        $headers = [
+            'Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':' . $this->getPassword()),
             'content-type' => 'application/json',
-        ], json_encode($data));
+        ];
+
+        $httpResponse = $this->httpClient->request('POST', $this->getEndpoint(), $headers, json_encode($data));
 
         return $this->response = new RapidResponse($this, json_decode((string) $httpResponse->getBody(), true));
     }

@@ -81,7 +81,11 @@ class RapidDirectUpdateCardRequest extends RapidDirectAbstractRequest
 
     public function sendData($data)
     {
-        $httpResponse = $this->httpClient->request('POST', $this->getEndpoint(), [], json_encode($data));
+        $headers = [
+            'Authorization' => 'Basic ' . base64_encode($this->getApiKey() . ':' . $this->getPassword())
+        ];
+
+        $httpResponse = $this->httpClient->request('POST', $this->getEndpoint(), $headers, json_encode($data));
 
         return $this->response = new RapidDirectCreateCardResponse(
             $this,
