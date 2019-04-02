@@ -94,7 +94,8 @@ class RapidDirectPurchaseRequest extends RapidDirectAbstractRequest
         }
 
         if (isset($data['Customer']['TokenCustomerID'])) {
-            // If we are paying using token, remove the card details otherwise the displayed data will be overwritten on eWay dashboard
+            // If we are paying using token, remove the card details
+            // otherwise the displayed data will be overwritten on eWay dashboard
             unset($data['Customer']['CardDetails']);
         }
 
