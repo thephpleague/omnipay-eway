@@ -14,12 +14,24 @@ namespace Omnipay\Eway\Message;
  */
 class RapidPurchaseRequest extends AbstractRequest
 {
+    protected $tokenPayment = false;
+
+    public function setTokenPayment($value)
+    {
+        $this->tokenPayment = (bool)$value;
+    }
+
+    public function getTokenPayment()
+    {
+        return $this->tokenPayment;
+    }
+
     public function getData()
     {
         $this->validate('amount', 'returnUrl');
 
         $data = $this->getBaseData();
-        $data['Method'] = 'ProcessPayment';
+        $data['Method'] = $this->tokenPayment ? 'TokenPayment' : 'ProcessPayment';
         $data['TransactionType'] = $this->getTransactionType();
         $data['RedirectUrl'] = $this->getReturnUrl();
 
