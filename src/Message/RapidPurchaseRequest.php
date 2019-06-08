@@ -31,7 +31,14 @@ class RapidPurchaseRequest extends AbstractRequest
         $this->validate('amount', 'returnUrl');
 
         $data = $this->getBaseData();
-        $data['Method'] = $this->tokenPayment ? 'TokenPayment' : 'ProcessPayment';
+        if ($this->tokenPayment) {
+            $data['Method'] = 'TokenPayment';
+            if ($this->getCardReference()) {
+                $data['Customer']['TokenCustomerID'] = $this->getCardReference();
+            }
+        } else {
+            $data['Method'] = 'ProcessPayment';
+        }
         $data['TransactionType'] = $this->getTransactionType();
         $data['RedirectUrl'] = $this->getReturnUrl();
 
